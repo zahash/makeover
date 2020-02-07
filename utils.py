@@ -1,9 +1,8 @@
-import plotly.express as px
 import plotly.graph_objs as go
 import dash_core_components as dcc
 
 
-def _get_numeric_categorical_columns(df):
+def _get_numeric_categorical_columns(feat):
     ''' 
     Finds out which columns are numeric and which
     are categorical in the given dataframe and 
@@ -12,9 +11,9 @@ def _get_numeric_categorical_columns(df):
 
     numeric_columns = []
     categorical_columns = []
-    for col in df.columns:
-        if df[col].dtype in [int, float]:
-            if df[col].unique().shape[0] / df.shape[0] < 0.01:
+    for col in feat.columns:
+        if feat[col].dtype in [int, float]:
+            if feat[col].unique().shape[0] / feat.shape[0] < 0.01:
                 categorical_columns.append(col)
             else:
                 numeric_columns.append(col)
@@ -24,47 +23,90 @@ def _get_numeric_categorical_columns(df):
     return numeric_columns, categorical_columns
 
 
-def generate_plots(df):
+def generate_plots(feat, label=None):
     '''
     returns a list of dcc.Graph objects
+
+    feat must be pandas DataFrame object
+    label must be pandas Series object
     '''
-    numeric_columns, categorical_columns = _get_numeric_categorical_columns(df)
+    numeric_columns, categorical_columns = _get_numeric_categorical_columns(
+        feat)
 
     plots = []
     for col in numeric_columns:
-        fig = px.histogram(df, x=col, marginal='box', hover_data=df.columns)
-        graph_obj = dcc.Graph(
-            figure=fig
-        )
+        fig = _generate_histogram_plot(feat=feat[col], label=label)
+        graph_obj = dcc.Graph(figure=fig)
         plots.append(graph_obj)
 
     for col in categorical_columns:
-
-        categories, frequencies = zip(
-            *sorted(df[col].value_counts().to_dict().items(), key=lambda x: x[1]))
-
-        trace = go.Bar(
-            x=list(frequencies),
-            y=list(categories),
-            orientation='h'
-        )
-
-        data = [trace]
-
-        layout = go.Layout(
-            title=col,
-            xaxis=dict(title='freq'),
-            yaxis=dict(title=col),
-            hovermode='closest'
-        )
-
-        fig = go.Figure(data=data, layout=layout)
-        graph_obj = dcc.Graph(
-            figure=dict(data=data, layout=layout)
-        )
+        fig = _generate_bar_plot(feat=feat[col], label=label)
+        graph_obj = dcc.Graph(figure=fig)
         plots.append(graph_obj)
 
     return plots
+
+
+def _generate_histogram_plot(feat, label=None):
+    '''
+    feat and label must be pandas Series object (single column)
+    '''
+    if label is not None:
+        data = []
+        for target_class in label.unique():
+            trace = go.Histogram(
+                x=feat[label == target_class], name=str(target_class))
+            data.append(trace)
+    else:
+        trace = go.Histogram(x=feat)
+        data = [trace]
+
+    layout = go.Layout(
+        title=feat.name,
+        hovermode='closest'
+    )
+
+    fig = go.Figure(data=data, layout=layout)
+    return fig
+
+
+def _generate_bar_plot(feat, label=None):
+    '''
+    feat and label must be pandas Series object (single column)
+    '''
+    if label is not None:
+        data = []
+        for target_class in label.unique():
+            categories, frequencies = zip(
+                *sorted(feat[label == target_class].value_counts().to_dict().items(), key=lambda x: x[1]))
+
+            trace = go.Bar(
+                x=frequencies,
+                y=categories,
+                orientation='h',
+                name=str(target_class)
+            )
+            data.append(trace)
+
+    else:
+        categories, frequencies = zip(
+            *sorted(feat.value_counts().to_dict().items(), key=lambda x: x[1]))
+        trace = go.Bar(
+            x=frequencies,
+            y=categories,
+            orientation='h'
+        )
+        data = [trace]
+
+    layout = go.Layout(
+        title=feat.name,
+        xaxis=dict(title='freq'),
+        yaxis=dict(title=feat.name),
+        hovermode='closest'
+    )
+
+    fig = go.Figure(data=data, layout=layout)
+    return fig
 
 
 # px.histogram(df, x="total_bill", y="tip", color="sex", marginal="rug", hover_data=df.columns)
