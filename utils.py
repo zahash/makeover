@@ -40,7 +40,7 @@ def generate_plots(feat, label=None):
         plots.append(graph_obj)
 
     for col in categorical_columns:
-        fig = _generate_bar_plot(feat=feat[col], label=label)
+        fig = _generate_freq_count_bar_plot(feat=feat[col], label=label)
         graph_obj = dcc.Graph(figure=fig)
         plots.append(graph_obj)
 
@@ -70,7 +70,7 @@ def _generate_histogram_plot(feat, label=None):
     return fig
 
 
-def _generate_bar_plot(feat, label=None):
+def _generate_freq_count_bar_plot(feat, label=None):
     '''
     feat and label must be pandas Series object (single column)
     '''
