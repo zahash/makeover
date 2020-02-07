@@ -16,7 +16,9 @@ dataset_name = 'churn_modelling.csv'
 dataset_path = os.path.join(DATA_DIR, dataset_name)
 
 df = pd.read_csv(dataset_path)
-plots = generate_plots(df)
+feat = df.drop(columns=["Exited"])
+label = df["Exited"]
+plots = generate_plots(feat, label)
 
 title = html.H1(children=dataset_name, style={
     'textAlign': 'center', 'fontFamily': 'Montserrat'})
@@ -25,7 +27,7 @@ body_children = []
 cols = []
 for i, graph_obj in enumerate(plots):
     cols.append(html.Div(className='col-md-4', children=[graph_obj]))
-    if i % 3 == 0 and i != 0:
+    if (i+1) % 3 == 0:
         body_children.append(html.Div(className='row', children=cols))
         cols = []
 body_children.append(html.Div(className='row', children=cols))
