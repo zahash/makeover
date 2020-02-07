@@ -1,4 +1,5 @@
 import plotly.graph_objs as go
+import plotly.figure_factory as ff
 import dash_core_components as dcc
 
 
@@ -35,7 +36,7 @@ def generate_plots(feat, label=None):
 
     plots = []
     for col in numeric_columns:
-        fig = _generate_histogram_plot(feat=feat[col], label=label)
+        fig = _generate_dist_plot(feat=feat[col], label=label)
         graph_obj = dcc.Graph(figure=fig)
         plots.append(graph_obj)
 
@@ -67,6 +68,24 @@ def _generate_histogram_plot(feat, label=None):
     )
 
     fig = go.Figure(data=data, layout=layout)
+    return fig
+
+
+def _generate_dist_plot(feat, label=None):
+    '''
+    feat and label must be pandas Series object (single column)
+    '''
+    if label is not None:
+        data = []
+        names = []
+        for target_class in label.unique():
+            data.append(feat[label == target_class])
+            names.append(str(target_class))
+    else:
+        data = [feat]
+
+    fig = ff.create_distplot(data, names, bin_size=0.2)
+    fig.update_layout(title_text=feat.name)
     return fig
 
 
