@@ -1,6 +1,9 @@
 import plotly.graph_objs as go
+import plotly.express as px
 import plotly.figure_factory as ff
 import dash_core_components as dcc
+
+import pandas as pd
 
 
 def _get_numeric_categorical_columns(feat):
@@ -36,7 +39,7 @@ def generate_plots(feat, label=None):
 
     plots = []
     for col in numeric_columns:
-        fig = _generate_histogram_plot(feat=feat[col], label=label)
+        fig = _generate_histogram_plot_V2(feat=feat[col], label=label)
         graph_obj = dcc.Graph(figure=fig)
         plots.append(graph_obj)
 
@@ -71,6 +74,23 @@ def _generate_histogram_plot(feat, label=None):
     return fig
 
 
+def _generate_histogram_plot_V2(feat, label=None):
+    '''
+    feat and label must be pandas Series object (single column)
+    '''
+    df = pd.DataFrame()
+    df[feat.name] = feat
+    if label is not None:
+        df[label.name] = label
+        fig = px.histogram(df, x=feat.name, color=label.name,
+                           marginal="box", opacity=0.8, title=feat.name)
+    else:
+        fig = px.histogram(df, x=feat.name, marginal="box",
+                           opacity=0.8, title=feat.name)
+
+    return fig
+
+
 def _generate_dist_plot(feat, label=None):
     '''
     feat and label must be pandas Series object (single column)
@@ -97,7 +117,9 @@ def _generate_freq_count_bar_plot(feat, label=None):
         data = []
         for target_class in label.unique():
             categories, frequencies = zip(
-                *sorted(feat[label == target_class].value_counts().to_dict().items(), key=lambda x: x[1]))
+                *sorted(feat[label == target_class].value_counts().to_dict().items(),
+                        key=lambda x: x[1], 
+                        reverse=True))
 
             trace = go.Bar(
                 x=frequencies,
@@ -109,7 +131,9 @@ def _generate_freq_count_bar_plot(feat, label=None):
 
     else:
         categories, frequencies = zip(
-            *sorted(feat.value_counts().to_dict().items(), key=lambda x: x[1]))
+            *sorted(feat.value_counts().to_dict().items(),
+                    key=lambda x: x[1],
+                    reverse=True))
         trace = go.Bar(
             x=frequencies,
             y=categories,
