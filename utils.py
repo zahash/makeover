@@ -36,7 +36,7 @@ def generate_plots(feat, label=None):
 
     plots = []
     for col in numeric_columns:
-        fig = _generate_dist_plot(feat=feat[col], label=label)
+        fig = _generate_histogram_plot(feat=feat[col], label=label)
         graph_obj = dcc.Graph(figure=fig)
         plots.append(graph_obj)
 
@@ -84,7 +84,7 @@ def _generate_dist_plot(feat, label=None):
     else:
         data = [feat]
 
-    fig = ff.create_distplot(data, names, bin_size=0.2)
+    fig = ff.create_distplot(data, names)
     fig.update_layout(title_text=feat.name)
     return fig
 
