@@ -3,6 +3,7 @@ import plotly.express as px
 import plotly.figure_factory as ff
 import dash_core_components as dcc
 
+import itertools
 import pandas as pd
 
 
@@ -58,7 +59,19 @@ def generate_multi_column_plots(feat, label=None):
     feat must be pandas DataFrame object
     label must be pandas Series object
     '''
-    pass
+    numeric_columns, categorical_columns = _get_numeric_categorical_columns(
+        feat)
+    numeric_column_pairs = [
+        pair for pair in itertools.combinations(numeric_columns, 2)]
+
+    plots = []
+    for pair in numeric_column_pairs:
+        first_col, second_col = pair[0], pair[1]
+        fig = _generate_scatter_plot(feat[first_col], feat[second_col], label)
+        graph_obj = dcc.Graph(figure=fig)
+        plots.append(graph_obj)
+
+    return plots
 
 
 def _generate_histogram_plot(feat, label=None):
@@ -167,17 +180,19 @@ def _generate_scatter_plot(x, y, label=None):
     x, y and label must be pandas Series object (single column)
     '''
     if label is not None:
-        trace = go.Scatter(
-            x=x,
-            y=y,
-            mode='markers',
-            marker=dict(
-                size=10,
-                line=dict(width=1),
-                color=label.astype('category').cat.codes
+        data = []
+        for target_class in label.unique():
+            trace = go.Scatter(
+                x=x[label == target_class],
+                y=y[label == target_class],
+                name=str(target_class),
+                mode='markers',
+                marker=dict(
+                    size=10,
+                    line=dict(width=1)
+                )
             )
-        )
-
+            data.append(trace)
     else:
         trace = go.Scatter(
             x=x,
@@ -188,8 +203,7 @@ def _generate_scatter_plot(x, y, label=None):
                 line=dict(width=1)
             )
         )
-
-    data = [trace]
+        data = [trace]
 
     layout = go.Layout(
         title='{} VS {}'.format(x.name, y.name),
