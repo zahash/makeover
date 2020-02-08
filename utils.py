@@ -67,7 +67,8 @@ def generate_multi_column_plots(feat, label=None):
     plots = []
     for pair in numeric_column_pairs:
         first_col, second_col = pair[0], pair[1]
-        fig = _generate_scatter_plot(feat[first_col], feat[second_col], label)
+        fig = _generate_scatter_plot_V2(
+            feat[first_col], feat[second_col], label)
         graph_obj = dcc.Graph(figure=fig)
         plots.append(graph_obj)
 
