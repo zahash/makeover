@@ -219,6 +219,28 @@ def _generate_scatter_plot(x, y, label=None):
     return fig
 
 
+def _generate_scatter_plot_V2(x, y, label=None):
+    '''
+    x, y and label must be pandas Series object (single column)
+
+    this Version (V2) uses plotly express to generate a more
+    advanced plot (with marginal box plot and trendlines)
+    '''
+    df = pd.DataFrame()
+    df[x.name] = x
+    df[y.name] = y
+    if label is not None:
+        df[label.name] = label
+        fig = px.scatter(df, x=x.name, y=y.name, color=label.name, marginal_x='box',
+                         trendline='ols', title='{} VS {}'.format(x.name, y.name))
+
+    else:
+        fig = px.scatter(df, x=x.name, y=y.name, marginal_x='box',
+                         trendline='ols', title='{} VS {}'.format(x.name, y.name))
+
+    return fig
+
+
 def generate_corr_heatmap(feat, label=None):
     '''
     returns a correlation heatmap dcc.Graph object
