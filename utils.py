@@ -100,6 +100,9 @@ def _generate_histogram_plot(feat, label=None):
 def _generate_histogram_plot_V2(feat, label=None):
     '''
     feat and label must be pandas Series object (single column)
+
+    this Version (V2) uses plotly express to generate a more
+    advanced plot (with marginal box plot)
     '''
     df = pd.DataFrame()
     df[feat.name] = feat
