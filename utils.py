@@ -72,6 +72,9 @@ def generate_multi_column_plots(feat, label=None):
         graph_obj = dcc.Graph(figure=fig)
         plots.append(graph_obj)
 
+    corr_graph = dcc.Graph(figure=_generate_corr_heatmap(feat, label))
+    plots.append(corr_graph)
+
     return plots
 
 
@@ -243,11 +246,24 @@ def _generate_scatter_plot_V2(x, y, label=None):
     return fig
 
 
-def generate_corr_heatmap(feat, label=None):
+def _generate_corr_heatmap(feat, label=None):
     '''
-    returns a correlation heatmap dcc.Graph object
+    returns a correlation heatmap figure
 
     feat must be pandas DataFrame object
     label must be pandas Series object
     '''
-    pass
+    df = pd.DataFrame(feat)
+    if label is not None:
+        df[label.name] = label
+
+    df_corr = df.corr()
+
+    fig = go.Figure(data=go.Heatmap(
+        z=df_corr.values,
+        x=df_corr.index,
+        y=df_corr.index,
+        hoverongaps=False,
+        colorscale='RdYlBu'))
+
+    return fig
