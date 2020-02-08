@@ -232,11 +232,12 @@ def _generate_scatter_plot_V2(x, y, label=None):
     df[y.name] = y
     if label is not None:
         df[label.name] = label
-        fig = px.scatter(df, x=x.name, y=y.name, color=label.name, marginal_x='box',
-                         trendline='ols', title='{} VS {}'.format(x.name, y.name))
+        fig = px.scatter(df, x=x.name, y=y.name, color=label.name,
+                         marginal_x='box', marginal_y='box', trendline='ols',
+                         title='{} VS {}'.format(x.name, y.name))
 
     else:
-        fig = px.scatter(df, x=x.name, y=y.name, marginal_x='box',
+        fig = px.scatter(df, x=x.name, y=y.name, marginal_x='box', marginal_y='box',
                          trendline='ols', title='{} VS {}'.format(x.name, y.name))
 
     return fig
