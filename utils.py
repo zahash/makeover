@@ -27,7 +27,7 @@ def _get_numeric_categorical_columns(feat):
     return numeric_columns, categorical_columns
 
 
-def generate_plots(feat, label=None):
+def generate_single_column_plots(feat, label=None):
     '''
     returns a list of dcc.Graph objects
 
@@ -49,6 +49,16 @@ def generate_plots(feat, label=None):
         plots.append(graph_obj)
 
     return plots
+
+
+def generate_multi_column_plots(feat, label=None):
+    '''
+    returns a list of dcc.Graph objects
+
+    feat must be pandas DataFrame object
+    label must be pandas Series object
+    '''
+    pass
 
 
 def _generate_histogram_plot(feat, label=None):
@@ -118,7 +128,7 @@ def _generate_freq_count_bar_plot(feat, label=None):
         for target_class in label.unique():
             categories, frequencies = zip(
                 *sorted(feat[label == target_class].value_counts().to_dict().items(),
-                        key=lambda x: x[1], 
+                        key=lambda x: x[1],
                         reverse=True))
 
             trace = go.Bar(
@@ -152,23 +162,51 @@ def _generate_freq_count_bar_plot(feat, label=None):
     return fig
 
 
-# px.histogram(df, x="total_bill", y="tip", color="sex", marginal="rug", hover_data=df.columns)
-# px.bar(df, x="total_bill", y="day", orientation='h')
+def _generate_scatter_plot(x, y, label=None):
+    '''
+    x, y and label must be pandas Series object (single column)
+    '''
+    if label is not None:
+        trace = go.Scatter(
+            x=x,
+            y=y,
+            mode='markers',
+            marker=dict(
+                size=10,
+                line=dict(width=1),
+                color=label.astype('category').cat.codes
+            )
+        )
 
-# import plotly.figure_factory as ff
-# ff.create_distplot(hist_data)
+    else:
+        trace = go.Scatter(
+            x=x,
+            y=y,
+            mode='markers',
+            marker=dict(
+                size=10,
+                line=dict(width=1)
+            )
+        )
+
+    data = [trace]
+
+    layout = go.Layout(
+        title='{} VS {}'.format(x.name, y.name),
+        xaxis=dict(title=x.name),
+        yaxis=dict(title=y.name),
+        hovermode='closest'
+    )
+
+    fig = go.Figure(data=data, layout=layout)
+    return fig
 
 
-# dcc.Graph(
-#     id='petal-length-hist',
-#     figure={
-#         'data': [dict(
-#             x=df['petal_length'][df['species'] == class_name],
-#             type='histogram',
-#             name=class_name
-#         )for class_name in df['species'].unique()],
-#         'layout': {
-#             'title': 'Dash Data Visualization'
-#         }
-#     }
-# )
+def generate_corr_heatmap(feat, label=None):
+    '''
+    returns a correlation heatmap dcc.Graph object
+
+    feat must be pandas DataFrame object
+    label must be pandas Series object
+    '''
+    pass
