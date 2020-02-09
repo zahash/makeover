@@ -24,18 +24,17 @@ plots = generate_single_column_plots(feat, label) + \
 title = html.H1(children=dataset_path, style={
     'textAlign': 'center', 'fontFamily': 'Montserrat'})
 
-
 body_children = []
-cols = []
-for i, graph_obj in enumerate(plots):
-    cols.append(html.Div(className='col-md-4', children=[graph_obj]))
-    if (i+1) % 3 == 0:
-        body_children.append(html.Div(className='row', children=cols))
-        cols = []
-body_children.append(html.Div(className='row', children=cols))
+for graph_obj in plots:
+    body_children.append(
+        html.Div(className='col-md-4', children=[graph_obj])
+    )
 
-
-body = html.Div(children=body_children)
+body = html.Div(
+    children=html.Div(
+        className='row', children=body_children
+    )
+)
 app.layout = html.Div(children=[title, body])
 
 if __name__ == '__main__':
