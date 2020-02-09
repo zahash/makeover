@@ -1,1 +1,8 @@
 creating a dataframe in '*V2' (and some other) methods is repetitive.
+sample only 1000 rows from dataframe
+scatter plots may require '2 in a row' layout
+
+encode variables with color(categorical) and size(numerical)
+for proper encoding, follow data visualization heuristics
+
+change the layout to have horizontal scrolling
