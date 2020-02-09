@@ -6,7 +6,7 @@ import dash_core_components as dcc
 import itertools
 import pandas as pd
 
-from utils import _get_numeric_categorical_columns
+from utils import _get_continuous_categorical_columns
 
 
 def generate_single_column_plots(feat, label=None):
@@ -16,11 +16,11 @@ def generate_single_column_plots(feat, label=None):
     feat must be pandas DataFrame object
     label must be pandas Series object
     '''
-    numeric_columns, categorical_columns = _get_numeric_categorical_columns(
+    continuous_columns, categorical_columns = _get_continuous_categorical_columns(
         feat)
 
     plots = []
-    for col in numeric_columns:
+    for col in continuous_columns:
         fig = _generate_histogram_plot_V2(feat=feat[col], label=label)
         graph_obj = dcc.Graph(figure=fig)
         plots.append(graph_obj)
@@ -40,13 +40,13 @@ def generate_multi_column_plots(feat, label=None):
     feat must be pandas DataFrame object
     label must be pandas Series object
     '''
-    numeric_columns, categorical_columns = _get_numeric_categorical_columns(
+    continuous_columns, categorical_columns = _get_continuous_categorical_columns(
         feat)
-    numeric_column_pairs = [
-        pair for pair in itertools.combinations(numeric_columns, 2)]
+    continuous_column_pairs = [
+        pair for pair in itertools.combinations(continuous_columns, 2)]
 
     plots = []
-    for pair in numeric_column_pairs:
+    for pair in continuous_column_pairs:
         first_col, second_col = pair[0], pair[1]
         fig = _generate_scatter_plot_V2(
             feat[first_col], feat[second_col], label)

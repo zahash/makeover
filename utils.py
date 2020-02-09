@@ -2,22 +2,22 @@
 # which columns are continuous and categorical
 
 
-def _get_numeric_categorical_columns(feat):
+def _get_continuous_categorical_columns(feat):
     ''' 
-    Finds out which columns are numeric and which
+    Finds out which columns are continuous and which
     are categorical in the given dataframe and 
     returns them as lists
     '''
 
-    numeric_columns = []
+    continuous_columns = []
     categorical_columns = []
     for col in feat.columns:
         if feat[col].dtype in [int, float]:
             if feat[col].unique().shape[0] / feat.shape[0] < 0.01:
                 categorical_columns.append(col)
             else:
-                numeric_columns.append(col)
+                continuous_columns.append(col)
         else:
             categorical_columns.append(col)
 
-    return numeric_columns, categorical_columns
+    return continuous_columns, categorical_columns
