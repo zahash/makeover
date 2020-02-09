@@ -6,26 +6,7 @@ import dash_core_components as dcc
 import itertools
 import pandas as pd
 
-
-def _get_numeric_categorical_columns(feat):
-    ''' 
-    Finds out which columns are numeric and which
-    are categorical in the given dataframe and 
-    returns them as lists
-    '''
-
-    numeric_columns = []
-    categorical_columns = []
-    for col in feat.columns:
-        if feat[col].dtype in [int, float]:
-            if feat[col].unique().shape[0] / feat.shape[0] < 0.01:
-                categorical_columns.append(col)
-            else:
-                numeric_columns.append(col)
-        else:
-            categorical_columns.append(col)
-
-    return numeric_columns, categorical_columns
+from utils import _get_numeric_categorical_columns
 
 
 def generate_single_column_plots(feat, label=None):
