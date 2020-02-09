@@ -1,17 +1,16 @@
-EXTERNAL_STYLESHEETS = [
-    {
-        'rel': 'stylesheet',
-        'href': 'https://fonts.googleapis.com/css?family=Montserrat&display=swap'
-    },
-    {
-        'rel': 'stylesheet',
-        'href': 'https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css',
-        'integrity': 'sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh',
-        'crossorigin': 'anonymous'
-    }
-]
+_font_montserrat = {
+    'rel': 'stylesheet',
+    'href': 'https://fonts.googleapis.com/css?family=Montserrat&display=swap'
+}
 
-EXTERNAL_SCRIPTS = [
+_css_bootstrap = {
+    'rel': 'stylesheet',
+    'href': 'https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css',
+    'integrity': 'sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh',
+    'crossorigin': 'anonymous'
+}
+
+_script_bootstrap = [
     {
         'src': 'https://code.jquery.com/jquery-3.4.1.slim.min.js',
         'integrity': 'sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n',
@@ -28,6 +27,15 @@ EXTERNAL_SCRIPTS = [
         'crossorigin': 'anonymous'
     }
 ]
+
+EXTERNAL_STYLESHEETS = [
+    _font_montserrat,
+    _css_bootstrap,
+]
+
+EXTERNAL_SCRIPTS = [
+
+] + _script_bootstrap
 
 
 DATA_DIR = './data'
