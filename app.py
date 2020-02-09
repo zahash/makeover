@@ -11,12 +11,16 @@ app = dash.Dash(__name__, external_stylesheets=EXTERNAL_STYLESHEETS,
                 external_scripts=EXTERNAL_SCRIPTS)
 
 dataset_path = sys.argv[1]
-target_column_name = sys.argv[2]
-
 df = pd.read_csv(dataset_path)
 
-feat = df.drop(columns=[target_column_name])
-label = df[target_column_name]
+try:
+    target_column_name = sys.argv[2]
+    feat = df.drop(columns=[target_column_name])
+    label = df[target_column_name]
+
+except IndexError:
+    feat = df
+    label = None
 
 plots = generate_single_column_plots(feat, label) + \
     generate_multi_column_plots(feat, label)
