@@ -12,14 +12,3 @@ encode variables with color(categorical) and size(numerical)
 for proper encoding, follow data visualization heuristics
 
 change the layout to have horizontal scrolling
-
-determine categorical and continuous columns by
-plotting a bar chart of column names with their count
-of unique values
-
-determine which columns need to change their dtype from 
-string to float by picking 10 random samples from that
-column and trying to parse it as float (float(value)).
-If the majority of them get converted to float then the 
-dtype may be converted to float.
-eg: a numeric column might have a '?' instead of np.nan
