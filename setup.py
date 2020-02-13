@@ -30,7 +30,7 @@ setup(
     install_requires=["pandas", "dash"],
     # entry_points={
     #     "console_scripts": [
-    #         "realpython=reader.__main__:main",
+    #         "autoviz=autoviz.__main__:main",
     #     ]
     # },
 )
