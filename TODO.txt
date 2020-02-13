@@ -15,3 +15,5 @@ encode variables with color(categorical) and size(numerical)
 for proper encoding, follow data visualization heuristics
 
 change the layout to have horizontal scrolling
+
+support time series datasets
