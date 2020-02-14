@@ -1,4 +1,4 @@
-from app import app
+from autoviz.app import app
 
 
 def main():
