@@ -12,7 +12,7 @@ README = (HERE / "README.md").read_text()
 # This call to setup() does all the work
 setup(
     name="makeover",
-    version="0.0.1",
+    version="0.0.2",
     description="this package automatically generates visualization dashboard of given data",
     long_description=README,
     long_description_content_type="text/markdown",
