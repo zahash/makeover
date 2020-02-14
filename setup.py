@@ -28,9 +28,9 @@ setup(
     packages=["autoviz"],
     include_package_data=True,
     install_requires=["pandas", "dash"],
-    # entry_points={
-    #     "console_scripts": [
-    #         "autoviz=autoviz.__main__:main",
-    #     ]
-    # },
+    entry_points={
+        "console_scripts": [
+            "autoviz=autoviz.__main__:main",
+        ]
+    },
 )
