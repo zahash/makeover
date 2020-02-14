@@ -27,7 +27,7 @@ setup(
     ],
     packages=["makeover"],
     include_package_data=True,
-    install_requires=["pandas", "dash"],
+    install_requires=["pandas", "dash", "statsmodels"],
     entry_points={
         "console_scripts": [
             "makeover=makeover.__main__:main",
