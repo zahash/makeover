@@ -1,3 +1,10 @@
+# visual studio code specific folder
 .vscode
+
+# compiled python files
 __pycache__
-data
+
+# package specific folders
+dist
+build
+*.egg-info
