@@ -6,7 +6,7 @@ import dash_core_components as dcc
 import itertools
 import pandas as pd
 
-from autoviz.utils import _get_continuous_categorical_columns
+from makeover.utils import _get_continuous_categorical_columns
 
 
 def generate_single_column_plots(feat, label=None):

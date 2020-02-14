@@ -4,8 +4,8 @@ import dash_html_components as html
 import sys
 import pandas as pd
 
-from autoviz.viz_gen import generate_single_column_plots, generate_multi_column_plots
-from autoviz.config import EXTERNAL_STYLESHEETS, EXTERNAL_SCRIPTS, DATA_DIR
+from makeover.viz_gen import generate_single_column_plots, generate_multi_column_plots
+from makeover.config import EXTERNAL_STYLESHEETS, EXTERNAL_SCRIPTS, DATA_DIR
 
 app = dash.Dash(__name__, external_stylesheets=EXTERNAL_STYLESHEETS,
                 external_scripts=EXTERNAL_SCRIPTS)

@@ -1,4 +1,4 @@
-# autoviz
+# makeover
 
 > Automatic EDA
 
@@ -11,19 +11,19 @@ This library automatically generates visualization dashboard of given data
 OS X & Linux:
 
 ```sh
-pip3 install autoviz
+pip3 install makeover
 ```
 
 Windows:
 
 ```sh
-pip install autoviz
+pip install makeover
 ```
 
 ## Usage example
 
 ```sh
-python3 -m autoviz 'some_dataset.csv' 'target_col_name_if_any'
+python3 -m makeover 'some_dataset.csv' 'target_col_name_if_any'
 ```
 
 ## Development setup
@@ -53,7 +53,7 @@ Distributed under the MIT license. See `LICENSE` for more information.
 
 ## Contributing
 
-1. Fork it (<https://github.com/zahash/autoviz/fork>)
+1. Fork it (<https://github.com/zahash/makeover/fork>)
 2. Create your feature branch (`git checkout -b feature/fooBar`)
 3. Commit your changes (`git commit -am 'Add some fooBar'`)
 4. Push to the branch (`git push origin feature/fooBar`)

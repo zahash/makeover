@@ -11,12 +11,12 @@ README = (HERE / "README.md").read_text()
 
 # This call to setup() does all the work
 setup(
-    name="autoviz",
+    name="makeover",
     version="0.0.1",
     description="this package automatically generates visualization dashboard of given data",
     long_description=README,
     long_description_content_type="text/markdown",
-    url="https://github.com/zahash/autoviz",
+    url="https://github.com/zahash/makeover",
     author="zahash",
     author_email="zahash.z@gmail.com",
     license="MIT",
@@ -25,12 +25,12 @@ setup(
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.7",
     ],
-    packages=["autoviz"],
+    packages=["makeover"],
     include_package_data=True,
     install_requires=["pandas", "dash"],
     entry_points={
         "console_scripts": [
-            "autoviz=autoviz.__main__:main",
+            "makeover=makeover.__main__:main",
         ]
     },
 )

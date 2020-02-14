@@ -1,4 +1,4 @@
-from autoviz.app import app
+from makeover.app import app
 
 
 def main():
